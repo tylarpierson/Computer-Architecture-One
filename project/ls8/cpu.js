@@ -71,6 +71,8 @@ class CPU {
 
         // !!! IMPLEMENT ME
 
+        IR = this.PC;
+
         // Debugging output
         //console.log(`${this.PC}: ${IR.toString(2)}`);
 
@@ -79,10 +81,14 @@ class CPU {
 
         // !!! IMPLEMENT ME
 
+        this.ram.read(this.PC + 1, this.PC + 2);
+
         // Execute the instruction. Perform the actions for the instruction as
         // outlined in the LS-8 spec.
 
         // !!! IMPLEMENT ME
+
+        
 
         // Increment the PC register to go to the next instruction. Instructions
         // can be 1, 2, or 3 bytes long. Hint: the high 2 bits of the
