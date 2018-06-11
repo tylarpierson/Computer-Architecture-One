@@ -81,14 +81,19 @@ class CPU {
 
         // !!! IMPLEMENT ME
 
-        this.ram.read(this.PC + 1, this.PC + 2);
+        let first = this.ram.read(this.PC + 1);
+        let second = this.ram.read(this.PC + 2);
 
         // Execute the instruction. Perform the actions for the instruction as
         // outlined in the LS-8 spec.
 
         // !!! IMPLEMENT ME
 
-        
+        switch(IR) {
+            case 'ADD':
+            this.alu('ADD', first, second);
+            break;
+        }
 
         // Increment the PC register to go to the next instruction. Instructions
         // can be 1, 2, or 3 bytes long. Hint: the high 2 bits of the
