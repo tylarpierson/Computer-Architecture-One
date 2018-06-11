@@ -93,6 +93,10 @@ class CPU {
             case 'ADD':
             this.alu('ADD', first, second);
             break;
+            case 'AND':
+            this.and(first, second);
+            break;
+            
         }
 
         // Increment the PC register to go to the next instruction. Instructions
