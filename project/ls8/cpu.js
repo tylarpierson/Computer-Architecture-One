@@ -60,6 +60,7 @@ class CPU {
         switch (op) {
             case 'MUL':
                 // !!! IMPLEMENT ME
+                
                 break;
         }
     }
@@ -85,8 +86,8 @@ class CPU {
 
         // !!! IMPLEMENT ME
 
-        let operandA = this.ram.read(this.PC + 1);
-        let operandB = this.ram.read(this.PC + 2);
+        const operandA = this.ram.read(this.PC + 1);
+        const operandB = this.ram.read(this.PC + 2);
 
         // Execute the instruction. Perform the actions for the instruction as
         // outlined in the LS-8 spec.
@@ -97,12 +98,12 @@ class CPU {
           case LDI:
             // Set the value in a register (R0-R7)
             this.reg[operandA] = operandB;
-            this.PC += 3; //Next instruction
+            //this.PC += 3; //Next instruction
             break;
 
           case PRN:
             console.log(this.reg[operandA]);
-            this.PC += 2;
+            //this.PC += 2;
             break;
 
           case HLT:
