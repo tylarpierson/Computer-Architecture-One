@@ -4,7 +4,8 @@
 
 const LDI = 0b10011001;
 const PRN = 0b01000011;
-const HLT = 0b1;
+const HLT = 0b00000001;
+
 /**
  * Class for simulating a simple Computer (CPU & memory)
  */
@@ -92,27 +93,27 @@ class CPU {
 
         // !!! IMPLEMENT ME
 
-        switch(IR) {
-            case LDI:
-                // Set the value in a register (R0-R7)
-                this.reg[operandA] = operandB;
-                this.PC += 3; //Next instruction
-                break;
+        switch (IR) {
+          case LDI:
+            // Set the value in a register (R0-R7)
+            this.reg[operandA] = operandB;
+            this.PC += 3; //Next instruction
+            break;
 
-            case PRN:
-                console.log(this.reg[operandA]);
-                this.PC += 2;
-                break;
+          case PRN:
+            console.log(this.reg[operandA]);
+            this.PC += 2;
+            break;
 
-            case HLT:
-                this.stopClock();
-                this.PC += 1;
-                break;
+          case HLT:
+            this.stopClock();
+            //this.PC += 1;
+            break;
 
-            default:
-                console.log('Unknown instruction: ' + IR.toString(2));
-                this.stopClock();
-                return;
+          default:
+            console.log("Unknown instruction: " + IR.toString(2));
+            this.stopClock();
+            return;
         }
 
         // Increment the PC register to go to the next instruction. Instructions
@@ -121,6 +122,9 @@ class CPU {
         // for any particular instruction.
         
         // !!! IMPLEMENT ME
+
+        const instLen = (IR >> 6) + 1;
+        this.PC += instLen;
     }
 }
 
