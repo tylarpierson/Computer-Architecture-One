@@ -13,7 +13,7 @@ class RAM {
     write(MAR, MDR) {
         // !!! IMPLEMENT ME
         // write the value in the MDR to the address MAR
-        MDR = this.mem(MAR);
+        MDR = this.mem[MAR];
     }
 
     /**
@@ -24,7 +24,7 @@ class RAM {
     read(MAR) {
         // !!! IMPLEMENT ME
         // Read the value in address MAR and return it
-        return MAR;
+        return this.mem[MAR];
     }
 }
 
