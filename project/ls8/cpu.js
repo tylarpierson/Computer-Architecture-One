@@ -2,10 +2,12 @@
  * LS-8 v2.0 emulator skeleton code
  */
 
-const LDI = 153;
-const PRN = 67;
-const HLT = 1;
-const MUL = 170;
+const LDI = 0b10011001;
+const PRN = 0b01000011;
+const HLT = 0b00000001;
+const MUL = 0b10101010;
+const PUSH = 0b01001101;
+const POP = 0b01001100;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
