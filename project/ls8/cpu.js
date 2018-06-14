@@ -8,6 +8,8 @@ const HLT = 0b00000001;
 const MUL = 0b10101010;
 const PUSH = 0b01001101;
 const POP = 0b01001100;
+const CALL = 0b01001000;
+const RET = 0b00001001;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
