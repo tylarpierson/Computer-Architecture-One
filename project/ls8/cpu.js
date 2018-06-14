@@ -115,14 +115,16 @@ class CPU {
             this.reg[operandA] = this.alu('MUL', operandA, operandB);
             break;
 
-					case PUSH:
-					this.SP--;
-					this.poke(this.SP, this.reg[operandA]);
+		  case PUSH:
+			 this.SP--;
+             this.poke(this.SP, this.reg[operandA]);
+             break;
 
-					case POP:
-					this.reg[operandA] = this.ram.read(this.SP);
-					this.SP++;
-
+		  case POP:
+			this.reg[operandA] = this.ram.read(this.SP);
+			this.SP++;
+            break;
+            
           case HLT:
             this.stopClock();
             //this.PC += 1;
