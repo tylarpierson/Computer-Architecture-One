@@ -10,6 +10,7 @@ const PUSH = 0b01001101;
 const POP = 0b01001100;
 const CALL = 0b01001000;
 const RET = 0b00001001;
+const SP = 7;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -23,11 +24,10 @@ class CPU {
         this.ram = ram;
 
         this.reg = new Array(8).fill(0); // General-purpose registers R0-R7
-        this.reg[7] = 0xf4;
+        this.reg[SP] = 0xf4;
 
         // Special-purpose registers
         this.PC = 0; // Program Counter
-        this.SP = this.reg[7];
     }
     
     /**
@@ -118,15 +118,22 @@ class CPU {
             break;
 
 		  case PUSH:
-			 this.SP--;
-             this.poke(this.SP, this.reg[operandA]);
+			 this.pushValue(this.reg[operandA]);
              break;
 
 		  case POP:
-			this.reg[operandA] = this.ram.read(this.SP);
-			this.SP++;
+			this.reg[operandA] = this.ram.read(this.reg[SP]);
+			this.reg[SP]++;
             break;
             
+          case CALL: 
+            this.pushValue(this.PC + 2);
+            break;
+
+          case RET:
+            this.PC = this.pop();
+            break;
+
           case HLT:
             this.stopClock();
             //this.PC += 1;
@@ -136,6 +143,11 @@ class CPU {
             console.log("Unknown instruction: " + IR.toString(2));
             this.stopClock();
             return;
+        }
+
+        pushValue(v) {
+            this.reg[SP]--;
+            this.ram.write(this.reg[SP], v);
         }
 
         // Increment the PC register to go to the next instruction. Instructions
