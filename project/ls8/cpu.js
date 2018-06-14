@@ -101,6 +101,8 @@ class CPU {
 
         // !!! IMPLEMENT ME
 
+        this.pcAdvance = true;
+
         switch (IR) {
           case LDI:
             // Set the value in a register (R0-R7)
@@ -128,6 +130,7 @@ class CPU {
             
           case CALL: 
             this.pushValue(this.PC + 2);
+            this.pcAdvance = false;
             break;
 
           case RET:
@@ -145,10 +148,6 @@ class CPU {
             return;
         }
 
-        pushValue(v) {
-            this.reg[SP]--;
-            this.ram.write(this.reg[SP], v);
-        }
 
         // Increment the PC register to go to the next instruction. Instructions
         // can be 1, 2, or 3 bytes long. Hint: the high 2 bits of the
@@ -157,8 +156,15 @@ class CPU {
         
         // !!! IMPLEMENT ME
 
-        const instLen = (IR >> 6) + 1;
-        this.PC += instLen;
+        if (this.pcAdvance) {
+            const instLen = (IR >> 6) + 1;
+            this.PC += instLen;
+        }
+    }
+
+    pushValue(v) {
+        this.reg[SP]--;
+        this.ram.write(this.reg[SP], v);
     }
 }
 
