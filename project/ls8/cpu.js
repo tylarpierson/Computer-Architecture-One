@@ -11,6 +11,7 @@ const POP = 0b01001100;
 const CALL = 0b01001000;
 const RET = 0b00001001;
 const SP = 7;
+const CMP = 0b10100000;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
