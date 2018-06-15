@@ -12,9 +12,6 @@ const CALL = 0b01001000;
 const RET = 0b00001001;
 const SP = 7;
 const CMP = 0b10100000;
-const FLAG_E = 0;
-const FLAG_G = 1;
-const FLAG_L = 2;
 const JMP = 0b01010000;
 const JEQ = 0b01010001;
 const JNE = 0b01010010;
@@ -35,7 +32,7 @@ class CPU {
 
         // Special-purpose registers
         this.PC = 0; // Program Counter
-        this.FL = 0;
+        this.FL = 0b00000000;
     }
 
 
@@ -78,11 +75,6 @@ class CPU {
             case 'MUL':
                 // !!! IMPLEMENT ME
                 return (this.reg[regA] * this.reg[regB]);
-                break;
-            case 'CMP':
-                this.FL(FLAG_E, this.reg[regA] === this.reg[regB]);
-                this.FL(FLAG_G, this.reg[regA] > this.reg[regB]);
-                this.FL(FLAG_L, this.reg[regA] < this.reg[regB]);
                 break;
         }
     }
@@ -150,11 +142,14 @@ class CPU {
             break;
 
           case RET:
-            this.PC = this.pop();
+            this.PC = this.ram.read(this.SP++);
+            this.pcAdvance = false;
             break;
 
           case CMP:
-            this.alu('CMP', operandA, operandB);
+                if (this.reg[operandA] < this.reg[operandB]) this.FL = 0b00000100;
+                if (this.reg[operandA] > this.reg[operandB]) this.FL = 0b00000010;
+                if (this.reg[operandA] === this.reg[operandB]) this.FL = 0b00000001;
             break;
          
           case JMP: 
@@ -163,15 +158,15 @@ class CPU {
             break;
 
           case JEQ:
-            if (this.FL(FLAG_E)) {
-                this.PC = this.reg[reg];
+                if (this.FL = 0b00000001) {
+                this.PC = this.reg[operandA];
                 this.pcAdvance = false;
             }
             break;
 
           case JNE:
-            if (!this.FL(FLAG_E)) {
-                this.PC = this.reg[reg];
+                if (this.FL !== 0b00000001) {
+                this.PC = this.reg[operandA];
                 this.pcAdvance = false;
             }
             break;
