@@ -12,6 +12,9 @@ const CALL = 0b01001000;
 const RET = 0b00001001;
 const SP = 7;
 const CMP = 0b10100000;
+const FLAG_E = 0;
+const FLAG_G = 1;
+const FLAG_L = 2;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -29,7 +32,10 @@ class CPU {
 
         // Special-purpose registers
         this.PC = 0; // Program Counter
+        this.FL = 0;
     }
+
+
     
     /**
      * Store value in memory address, useful for program loading
@@ -69,6 +75,11 @@ class CPU {
             case 'MUL':
                 // !!! IMPLEMENT ME
                 return (this.reg[regA] * this.reg[regB]);
+                break;
+            case 'CMP':
+                this.FL(FLAG_E, this.reg[regA] === this.reg[regB]);
+                this.FL(FLAG_G, this.reg[regA] > this.reg[regB]);
+                this.FL(FLAG_L, this.reg[regA] < this.reg[regB]);
                 break;
         }
     }
@@ -132,10 +143,15 @@ class CPU {
           case CALL: 
             this.pushValue(this.PC + 2);
             this.pcAdvance = false;
+            this.PC = operandA;
             break;
 
           case RET:
             this.PC = this.pop();
+            break;
+
+          case CMP:
+            this.alu('CMP', regA, regB);
             break;
 
           case HLT:
