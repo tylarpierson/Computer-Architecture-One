@@ -16,6 +16,8 @@ const FLAG_E = 0;
 const FLAG_G = 1;
 const FLAG_L = 2;
 const JMP = 0b01010000;
+const JEQ = 0b01010001;
+const JNE = 0b01010010;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -152,12 +154,26 @@ class CPU {
             break;
 
           case CMP:
-            this.alu('CMP', regA, regB);
+            this.alu('CMP', operandA, operandB);
             break;
          
           case JMP: 
             this.PC = this.reg[operandA];
             this.pcAdvance = false;
+            break;
+
+          case JEQ:
+            if (this.FL(FLAG_E)) {
+                this.PC = this.reg[reg];
+                this.pcAdvance = false;
+            }
+            break;
+
+          case JNE:
+            if (!this.FL(FLAG_E)) {
+                this.PC = this.reg[reg];
+                this.pcAdvance = false;
+            }
             break;
 
           case HLT:
