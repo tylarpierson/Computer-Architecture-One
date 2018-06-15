@@ -15,6 +15,7 @@ const CMP = 0b10100000;
 const FLAG_E = 0;
 const FLAG_G = 1;
 const FLAG_L = 2;
+const JMP = 0b01010000;
 
 /**
  * Class for simulating a simple Computer (CPU & memory)
@@ -152,6 +153,11 @@ class CPU {
 
           case CMP:
             this.alu('CMP', regA, regB);
+            break;
+         
+          case JMP: 
+            this.PC = this.reg[operandA];
+            this.pcAdvance = false;
             break;
 
           case HLT:
